@@ -1,10 +1,16 @@
-export enum ROUTES {
+export enum SITE_ROUTES {
   INDEX = '/',
-  ADMIN = '/admin',
+  BLOG = '/blog',
   CATALOG = '/catalog',
   CART = '/cart',
-  BLOG = '/blog',
-  ORDER = '/order',
   REGISTER = '/register',
   LOGIN = '/login',
+}
+
+export enum ADMIN_ROUTES {
+  INDEX = '/admin',
+  PRODUCTS = '/admin/products',
+  CATEGORIES = '/admin/categories',
+  USERS = '/admin/users',
+  ORDERS = '/admin/orders',
 }

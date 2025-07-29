@@ -9,8 +9,8 @@ export const useDeleteProduct = ({
   onError?: () => void
 }) => {
   const delivery = useDelivery()
-  const { execute, loading, result } = useFetch<null>({
-    asyncFunction: delivery.CS.productsActions.deleteById,
+  const { execute, loading, result } = useFetch<void>({
+    asyncFunction: delivery.CS.productActions.delete,
     onSuccess,
     onError,
   })

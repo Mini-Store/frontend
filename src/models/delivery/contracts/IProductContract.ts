@@ -1,24 +1,25 @@
-import { IManagerResponseContract } from './IManager.ts'
+import { ICategoryResponseContract } from './ICategoryCategory'
 
-export interface IProductsResponseContract {
+export interface IProductResponseContract {
   id: string
   createdAt: string
   name: string
-  slug: string
-  product_code: string
-  unitPrice: string
-  quantity: number
-  manager: IManagerResponseContract
+  description: string
+  price: string
+  images: string[]
+  category: ICategoryResponseContract
 }
 
 export interface IProductCreateContract {
-  name?: string
-  unitPrice?: string
-  quantity?: number
+  name: string
+  description: string
+  price: number
+  images: string[]
 }
 
 export interface IProductUpdateContract {
-  name?: string
-  unitPrice?: string
-  quantity?: number
+  name: string
+  description: string
+  price: number
+  images: string[]
 }

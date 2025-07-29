@@ -1,4 +1,4 @@
-import { ROUTES } from '@constants/routing.tsx'
+import { SITE_ROUTES } from '@constants/routing.tsx'
 import { IAuthRegisterContract } from '@models/delivery/contracts/IAuthContract'
 import { authStore } from '@store/useAuthStore.ts'
 import { Button, Form, Input, message, Typography } from 'antd'
@@ -14,7 +14,7 @@ export const Register: FC = () => {
     const result = await register(values)
     if (result.success) {
       message.success(result.message)
-      navigate(ROUTES.INDEX)
+      navigate(SITE_ROUTES.INDEX)
     } else {
       message.error(result.message)
     }
@@ -64,7 +64,7 @@ export const Register: FC = () => {
             </Button>
           </Form.Item>
           <Form.Item style={{ textAlign: 'center', marginBottom: 0 }}>
-            У вас уже есть аккаунт <Link onClick={() => navigate(ROUTES.LOGIN)}>Войти</Link>
+            У вас уже есть аккаунт <Link onClick={() => navigate(SITE_ROUTES.LOGIN)}>Войти</Link>
           </Form.Item>
         </Form>
       </div>

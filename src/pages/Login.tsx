@@ -1,4 +1,4 @@
-import { ROUTES } from '@constants/routing'
+import { SITE_ROUTES } from '@constants/routing'
 import { IAuthLoginContract } from '@models/delivery/contracts/IAuthContract'
 import { authStore } from '@store/useAuthStore'
 import { Button, Form, Input, message, Typography } from 'antd'
@@ -15,7 +15,7 @@ export const Login: FC = () => {
     const result = await login(values)
     if (result.success) {
       message.success(result.message)
-      navigate(ROUTES.INDEX)
+      navigate(SITE_ROUTES.INDEX)
     } else {
       message.error(result.message)
     }
@@ -56,7 +56,7 @@ export const Login: FC = () => {
 
           <Form.Item className="text-center mb-0">
             Нет аккаунта?{' '}
-            <Link onClick={() => navigate(ROUTES.REGISTER)} className="text-blue-600 hover:underline">
+            <Link onClick={() => navigate(SITE_ROUTES.REGISTER)} className="text-blue-600 hover:underline">
               Зарегистрироваться
             </Link>
           </Form.Item>

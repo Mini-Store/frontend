@@ -1,11 +1,16 @@
+import { PlusOutlined } from '@ant-design/icons'
 import { useDelivery } from '@hooks/API/useDelivery.tsx'
 import { useFetch } from '@hooks/API/useFetch.tsx'
 import { useMessage } from '@hooks/useMessages.tsx'
 import { IProductCreateContract } from '@models/delivery/contracts/IProductContract.ts'
-import { authStore } from '@store/useAuthStore.ts'
-import { Form, Input, Modal } from 'antd'
-import { FC } from 'react'
-import { ICreateProductModal } from './interface.ts'
+import { Form, Input, Modal, Upload, UploadFile } from 'antd'
+import { FC, useState } from 'react'
+
+interface ICreateProductModal {
+  isOpen: boolean
+  setIsOpen: (value: boolean) => void
+  onCreateSuccess?: (id: string) => void
+}
 
 export const CreateProductModal: FC<ICreateProductModal> = ({
   isOpen,
@@ -15,9 +20,10 @@ export const CreateProductModal: FC<ICreateProductModal> = ({
   const delivery = useDelivery()
   const [form] = Form.useForm<IProductCreateContract>()
   const { error: showError, success: showSuccess } = useMessage()
+  const [fileList, setFileList] = useState<UploadFile[]>([])
 
   const { execute: createProduct, loading: isProductLoading } = useFetch({
-    asyncFunction: delivery.CS.productsActions.create,
+    asyncFunction: delivery.CS.productActions.create,
     onSuccess: (response) => {
       showSuccess('Товар успешно создан')
       form.resetFields()
@@ -31,8 +37,7 @@ export const CreateProductModal: FC<ICreateProductModal> = ({
     form
       .validateFields()
       .then((values) => {
-        const managerId = authStore.getState().userId
-        createProduct({ ...values, managerId })
+        createProduct({ ...values })
       })
       .catch(() => {
         showError('Заполните все поля')
@@ -53,11 +58,27 @@ export const CreateProductModal: FC<ICreateProductModal> = ({
         <Form.Item label="Название товара" name="name">
           <Input />
         </Form.Item>
-        <Form.Item label="Цена" name="unitPrice">
+        <Form.Item label="Описание товара" name="description">
           <Input />
         </Form.Item>
-        <Form.Item label="Количество" name="quantity">
+        <Form.Item label="Цена" name="price">
           <Input />
+        </Form.Item>
+        <Form.Item label="Изображение товара">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            beforeUpload={() => false}
+            onChange={({ fileList }) => setFileList(fileList)}
+            maxCount={1}
+          >
+            {fileList.length >= 1 ? null : (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Загрузить</div>
+              </div>
+            )}
+          </Upload>
         </Form.Item>
       </Form>
     </Modal>

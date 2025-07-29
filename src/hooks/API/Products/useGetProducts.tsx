@@ -12,7 +12,7 @@ export const useGetProducts = ({
 }) => {
   const delivery = useDelivery()
   const { result, loading, execute } = useFetch({
-    asyncFunction: (query: IQueryContract) => delivery.CS.productsActions.getList(query),
+    asyncFunction: (query: IQueryContract) => delivery.CS.productActions.getList(query),
     onSuccess,
     onError,
   })
