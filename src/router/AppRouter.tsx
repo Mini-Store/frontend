@@ -4,6 +4,7 @@ import { Admin } from '@pages/Admin'
 import Blog from '@pages/Blog'
 import Cart from '@pages/Cart'
 import Catalog from '@pages/Catalog'
+import { Categories } from '@pages/Category'
 import { Home } from '@pages/Home'
 import { Login } from '@pages/Login'
 import { Products } from '@pages/Products'
@@ -39,6 +40,16 @@ export const AppRouter = () => {
           element={
             accessToken && user?.role === 'admin' ? (
               <Products />
+            ) : (
+              <Navigate to={SITE_ROUTES.LOGIN} replace />
+            )
+          }
+        />
+        <Route
+          path={ADMIN_ROUTES.CATEGORIES}
+          element={
+            accessToken && user?.role === 'admin' ? (
+              <Categories />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
             )
