@@ -8,7 +8,6 @@ interface AuthResponse {
   user: User
 }
 
-// Login
 export const loginThunk = createAsyncThunk<AuthResponse, { email: string; password: string }>(
   'auth/login',
   async (data, { rejectWithValue }) => {
@@ -21,9 +20,9 @@ export const loginThunk = createAsyncThunk<AuthResponse, { email: string; passwo
         user: {
           id: String(value.user.id),
           createdAt: value.user.createdAt,
-          username: value.user.username,
+          username: value.user.name,
           email: value.user.email,
-          phoneNumber: value.user.phoneNumber,
+          phoneNumber: value.user.phone,
           password: '',
           role: value.user.role,
         },
@@ -34,7 +33,6 @@ export const loginThunk = createAsyncThunk<AuthResponse, { email: string; passwo
   },
 )
 
-// Register
 export const registerThunk = createAsyncThunk<AuthResponse, any>(
   'auth/register',
   async (data, { rejectWithValue }) => {
@@ -60,7 +58,6 @@ export const registerThunk = createAsyncThunk<AuthResponse, any>(
   },
 )
 
-// Refresh token
 export const refreshThunk = createAsyncThunk<{ accessToken: string; refreshToken: string }, string>(
   'auth/refresh',
   async (refreshToken, { rejectWithValue }) => {

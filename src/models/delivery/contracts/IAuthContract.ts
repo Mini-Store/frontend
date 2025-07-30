@@ -1,11 +1,11 @@
-import { IUser } from './IUserContract'
+import { IUserResponseContract } from './IUserContract'
 
 export interface IAuth {
   accessToken: string
   refreshToken: string
-  user: IUser
+  user: IUserResponseContract
   setTokens: (accessToken: string, refreshToken: string) => void
-  setUser: (user: IUser) => void
+  setUser: (user: IUserResponseContract) => void
   refresh: () => Promise<void>
   logout: () => Promise<{ success: boolean; message: string }>
 }
@@ -13,7 +13,7 @@ export interface IAuth {
 export interface IAuthResponseContract {
   accessToken: string
   refreshToken: string
-  user: IUser
+  user: IUserResponseContract
 }
 
 export interface IAuthStore extends IAuth {

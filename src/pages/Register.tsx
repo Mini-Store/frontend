@@ -1,22 +1,25 @@
 import { SITE_ROUTES } from '@constants/routing.tsx'
 import { IAuthRegisterContract } from '@models/delivery/contracts/IAuthContract'
-import { authStore } from '@store/useAuthStore.ts'
+import { useAuthStore } from '../store/useAuthStore'
 import { Button, Form, Input, message, Typography } from 'antd'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 const { Link } = Typography
 
 export const Register: FC = () => {
-  const { register, loading } = authStore()
+  const authStore = useAuthStore()
   const navigate = useNavigate()
 
   const onFinish = async (values: IAuthRegisterContract) => {
-    const result = await register(values)
-    if (result.success) {
-      message.success(result.message)
+    const result = await authStore.register(values)
+    const payload = (result as any).payload
+    if (payload && payload.success) {
+      message.success(payload.message)
       navigate(SITE_ROUTES.INDEX)
+    } else if (payload) {
+      message.error(payload.message)
     } else {
-      message.error(result.message)
+      message.error('Произошла ошибка при регистрации')
     }
   }
 
@@ -59,7 +62,7 @@ export const Register: FC = () => {
             <Input placeholder="+992#########" className="h-10" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
+            <Button type="primary" htmlType="submit" loading={authStore.loading} block>
               Войти
             </Button>
           </Form.Item>

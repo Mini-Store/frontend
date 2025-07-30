@@ -10,12 +10,12 @@ import { Login } from '@pages/Login'
 import { Products } from '@pages/Products'
 import { Register } from '@pages/Register'
 import { Users } from '@pages/Users'
-import { authStore } from '@store/useAuthStore'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAuthStore } from '../store/useAuthStore'
 
 export const AppRouter = () => {
-  const accessToken = authStore((state) => state.accessToken)
-  const user = authStore((state) => state.user)
+  const authStore = useAuthStore()
+
   return (
     <>
       <Header />
@@ -29,7 +29,7 @@ export const AppRouter = () => {
         <Route
           path={ADMIN_ROUTES.INDEX}
           element={
-            accessToken && user?.role === 'admin' ? (
+            authStore.accessToken && authStore.user?.role === 'admin' ? (
               <Admin />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
@@ -39,7 +39,7 @@ export const AppRouter = () => {
         <Route
           path={ADMIN_ROUTES.PRODUCTS}
           element={
-            accessToken && user?.role === 'admin' ? (
+            authStore.accessToken && authStore.user?.role === 'admin' ? (
               <Products />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
@@ -49,7 +49,7 @@ export const AppRouter = () => {
         <Route
           path={ADMIN_ROUTES.CATEGORIES}
           element={
-            accessToken && user?.role === 'admin' ? (
+            authStore.accessToken && authStore.user?.role === 'admin' ? (
               <Categories />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
@@ -59,7 +59,7 @@ export const AppRouter = () => {
         <Route
           path={ADMIN_ROUTES.USERS}
           element={
-            accessToken && user?.role === 'admin' ? (
+            authStore.accessToken && authStore.user?.role === 'admin' ? (
               <Users />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />

@@ -1,20 +1,17 @@
 import { AdminNavbar } from '@components/molecules/AdminNavbar'
 import { SiteNavbar } from '@components/molecules/SiteNavbar'
 import { SITE_ROUTES } from '@constants/routing'
-import { authStore } from '@store/useAuthStore.ts'
+import { useAuthStore } from '@store/useAuthStore'
 import { Button, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 export const Header = () => {
-  const accessToken = authStore((state) => state.accessToken)
-  const user = authStore((state) => state.user)
-  const logout = authStore((state) => state.logout)
-  const loading = authStore((state) => state.loading)
+  const authStore = useAuthStore()
   const navigate = useNavigate()
   const isAdminRoute = location.pathname.startsWith('/admin')
 
   const handleLogout = async () => {
-    const result = await logout()
+    const result = await authStore.logout()
     if (result.success) {
       navigate(SITE_ROUTES.LOGIN)
     } else {
@@ -36,14 +33,14 @@ export const Header = () => {
         </div>
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
           <Space>
-            {accessToken ? (
+            {authStore.accessToken ? (
               <>
-                {user?.role === 'admin' && !isAdminRoute && (
+                {authStore.user?.role === 'admin' && !isAdminRoute && (
                   <Button type="default" onClick={() => navigate('/admin')}>
                     Админка
                   </Button>
                 )}
-                <Button type="primary" danger onClick={handleLogout} loading={loading}>
+                <Button type="primary" danger onClick={handleLogout} loading={authStore.loading}>
                   Выйти
                 </Button>
               </>

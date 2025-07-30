@@ -5,6 +5,7 @@ export enum ROLE {
 
 export interface IUserResponseContract {
   id: string
+  createdAt: string
   email: string 
   name: string
   avatarPath: string

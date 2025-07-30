@@ -1,23 +1,23 @@
 import { SITE_ROUTES } from '@constants/routing'
 import { IAuthLoginContract } from '@models/delivery/contracts/IAuthContract'
-import { authStore } from '@store/useAuthStore'
 import { Button, Form, Input, message, Typography } from 'antd'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../store/useAuthStore'
 
 const { Link } = Typography
 
 export const Login: FC = () => {
-  const { login, loading } = authStore()
+  const authStore = useAuthStore()
   const navigate = useNavigate()
 
   const onFinish = async (values: IAuthLoginContract) => {
-    const result = await login(values)
-    if (result.success) {
-      message.success(result.message)
+    const result = await authStore.login(values)
+    if (result.meta.requestStatus === 'fulfilled') {
+      message.success('Вход выполнен успешно')
       navigate(SITE_ROUTES.INDEX)
     } else {
-      message.error(result.message)
+      message.error('Ошибка при входе')
     }
   }
 
@@ -46,7 +46,7 @@ export const Login: FC = () => {
             <Button
               type="primary"
               htmlType="submit"
-              loading={loading}
+              loading={authStore.loading}
               block
               className="bg-blue-600 border-blue-600 text-white hover:bg-blue-700"
             >
@@ -56,7 +56,10 @@ export const Login: FC = () => {
 
           <Form.Item className="text-center mb-0">
             Нет аккаунта?{' '}
-            <Link onClick={() => navigate(SITE_ROUTES.REGISTER)} className="text-blue-600 hover:underline">
+            <Link
+              onClick={() => navigate(SITE_ROUTES.REGISTER)}
+              className="text-blue-600 hover:underline"
+            >
               Зарегистрироваться
             </Link>
           </Form.Item>
