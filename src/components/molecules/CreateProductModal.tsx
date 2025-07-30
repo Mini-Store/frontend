@@ -3,8 +3,8 @@ import { useDelivery } from '@hooks/API/useDelivery.tsx'
 import { useFetch } from '@hooks/API/useFetch.tsx'
 import { useMessage } from '@hooks/useMessages.tsx'
 import { IProductCreateContract } from '@models/delivery/contracts/IProductContract.ts'
-import { Form, Input, Modal, Upload, UploadFile } from 'antd'
-import { FC, useState } from 'react'
+import { Form, Input, Modal, Select, Upload, UploadFile } from 'antd'
+import { FC, useEffect, useState } from 'react'
 
 interface ICreateProductModal {
   isOpen: boolean
@@ -27,17 +27,33 @@ export const CreateProductModal: FC<ICreateProductModal> = ({
     onSuccess: (response) => {
       showSuccess('Товар успешно создан')
       form.resetFields()
+      setFileList([])
       setIsOpen(false)
       response.value?.id && onCreateSuccess?.(response.value.id)
     },
     onError: () => showError('Произошла ошибка при создании товара'),
   })
+  const { result: categories, execute: fetchCategories } = useFetch({
+    asyncFunction: () => delivery.CS.categoryActions.getList(),
+  })
+
+  useEffect(() => {
+    if (isOpen) fetchCategories()
+  }, [isOpen])
 
   const submitForm = () => {
     form
       .validateFields()
       .then((values) => {
-        createProduct({ ...values })
+        const formData = new FormData()
+        formData.append('name', values.name)
+        formData.append('description', values.description)
+        formData.append('price', String(values.price))
+        formData.append('categoryId', values.categoryId)
+        if (fileList.length > 0 && fileList[0].originFileObj) {
+          formData.append('image', fileList[0].originFileObj)
+        }
+        createProduct(formData)
       })
       .catch(() => {
         showError('Заполните все поля')
@@ -51,26 +67,64 @@ export const CreateProductModal: FC<ICreateProductModal> = ({
       centered
       open={isOpen}
       okButtonProps={{ loading: isProductLoading }}
-      onOk={() => submitForm}
+      onOk={submitForm}
       onCancel={() => setIsOpen(false)}
     >
       <Form form={form} layout="vertical" onFinish={submitForm}>
-        <Form.Item label="Название товара" name="name">
+        <Form.Item
+          label="Название товара"
+          name="name"
+          rules={[{ required: true, message: 'Введите название товара' }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Описание товара" name="description">
+        <Form.Item
+          label="Описание товара"
+          name="description"
+          rules={[{ required: true, message: 'Введите описание товара' }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Цена" name="price">
-          <Input />
+        <Form.Item
+          label="Цена"
+          name="price"
+          rules={[
+            { required: true, message: 'Введите цену' },
+            {
+              type: 'number',
+              min: 0,
+              transform: (value) => Number(value),
+              message: 'Цена должна быть числом и больше или равна 0',
+            },
+          ]}
+        >
+          <Input type="number" />
         </Form.Item>
-        <Form.Item label="Изображение товара">
+        <Form.Item
+          label="Категория"
+          name="categoryId"
+          rules={[{ required: true, message: 'Выберите категорию' }]}
+        >
+          <Select placeholder="Выберите категорию">
+            {categories?.map((category) => (
+              <Select.Option key={category.id} value={category.id}>
+                {category.name}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Изображение товара"
+          required
+          rules={[{ required: true, message: 'Загрузите изображение' }]}
+        >
           <Upload
             listType="picture-card"
             fileList={fileList}
             beforeUpload={() => false}
             onChange={({ fileList }) => setFileList(fileList)}
             maxCount={1}
+            accept="image/*"
           >
             {fileList.length >= 1 ? null : (
               <div>

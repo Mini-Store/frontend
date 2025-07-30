@@ -2,11 +2,7 @@ import { HTTP_STATUSES } from '@constants/httpStatuses'
 import { apiRequestWrapper } from '@helpers/delivery'
 import { IConnector } from '@models/delivery/common/IConnector'
 import { GetListResponse, IApiResult } from '@models/delivery/common/IResultJSON'
-import {
-  IProductCreateContract,
-  IProductResponseContract,
-  IProductUpdateContract,
-} from '@models/delivery/contracts/IProductContract'
+import { IProductResponseContract } from '@models/delivery/contracts/IProductContract'
 import { IQueryContract } from '@models/delivery/contracts/IQueryContract'
 import { IProductActions } from './interface'
 
@@ -30,23 +26,25 @@ export class ProductActions implements IProductActions {
     )
   }
   getAllNames = async (): Promise<IApiResult<GetListResponse<IProductResponseContract>>> => {
+    return await apiRequestWrapper(this.connector.connector.get('/product/names'), HTTP_STATUSES.OK)
+  }
+  create = async (data: FormData): Promise<IApiResult<IProductResponseContract>> => {
     return await apiRequestWrapper(
-      this.connector.connector.get('/product/names'),
+      this.connector.connector.post('/product', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
       HTTP_STATUSES.OK,
     )
   }
-  create = async (data: IProductCreateContract): Promise<IApiResult<IProductResponseContract>> => {
+  update = async (id: string, data: FormData): Promise<IApiResult<IProductResponseContract>> => {
     return await apiRequestWrapper(
-      this.connector.connector.post('/product', data),
-      HTTP_STATUSES.OK,
-    )
-  }
-  update = async (
-    id: string,
-    data: IProductUpdateContract,
-  ): Promise<IApiResult<IProductResponseContract>> => {
-    return await apiRequestWrapper(
-      this.connector.connector.put(`/product/${id}`, data),
+      this.connector.connector.put(`/product/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
       HTTP_STATUSES.OK,
     )
   }

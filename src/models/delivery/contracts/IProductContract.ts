@@ -5,8 +5,8 @@ export interface IProductResponseContract {
   createdAt: string
   name: string
   description: string
-  price: string
-  images: string[]
+  price: number
+  image: string
   category: ICategoryResponseContract
 }
 
@@ -14,12 +14,14 @@ export interface IProductCreateContract {
   name: string
   description: string
   price: number
-  images: string[]
+  image: string
+  categoryId: string
 }
 
 export interface IProductUpdateContract {
   name: string
   description: string
   price: number
-  images: string[]
+  image: string
+  categoryId: string
 }
