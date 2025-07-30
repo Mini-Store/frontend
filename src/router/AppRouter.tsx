@@ -7,6 +7,7 @@ import Catalog from '@pages/Catalog'
 import { Categories } from '@pages/Category'
 import { Home } from '@pages/Home'
 import { Login } from '@pages/Login'
+import { Orders } from '@pages/Orders'
 import { Products } from '@pages/Products'
 import { Register } from '@pages/Register'
 import { Users } from '@pages/Users'
@@ -61,6 +62,16 @@ export const AppRouter = () => {
           element={
             authStore.accessToken && authStore.user?.role === 'admin' ? (
               <Users />
+            ) : (
+              <Navigate to={SITE_ROUTES.LOGIN} replace />
+            )
+          }
+        />
+        <Route
+          path={ADMIN_ROUTES.ORDERS}
+          element={
+            authStore.accessToken && authStore.user?.role === 'admin' ? (
+              <Orders />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
             )

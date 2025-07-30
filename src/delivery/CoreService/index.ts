@@ -5,6 +5,8 @@ import { IAuthActions } from './AuthActions/interface.ts'
 import { CategoryActions } from './CategoryActions/index.ts'
 import { ICategoryActions } from './CategoryActions/interface.ts'
 import { ICoreService } from './interface.ts'
+import { OrderActions } from './OrderActions/index.ts'
+import { IOrderActions } from './OrderActions/interface.ts'
 import { ProductActions } from './ProductActions/index.ts'
 import { IProductActions } from './ProductActions/interface.ts'
 import { UserActions } from './UserActions/index.ts'
@@ -16,6 +18,7 @@ export class CoreService implements ICoreService {
   productActions: IProductActions
   categoryActions: ICategoryActions
   userActions: IUserActions
+  orderActions: IOrderActions
 
   constructor() {
     this.connector = new ApiConnector('/api')
@@ -23,5 +26,6 @@ export class CoreService implements ICoreService {
     this.productActions = new ProductActions(this.connector)
     this.categoryActions = new CategoryActions(this.connector)
     this.userActions = new UserActions(this.connector)
+    this.orderActions = new OrderActions(this.connector)
   }
 }

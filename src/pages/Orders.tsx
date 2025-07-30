@@ -1,10 +1,10 @@
-import UsersTable from '@components/organisms/UsersTable'
-import { useUsers } from '@hooks/API/Users/useUsers'
+import OrdersTable from '@components/organisms/OrdersTable'
+import { useOrders } from '@hooks/API/Orders/useOrders'
 import { Spin } from 'antd'
 import { FC } from 'react'
 
-export const Users: FC = () => {
-  const { users, isLoading } = useUsers()
+export const Orders: FC = () => {
+  const { orders, isLoading } = useOrders()
 
   if (isLoading) {
     return (
@@ -18,10 +18,10 @@ export const Users: FC = () => {
     <section className="bg-white-alt py-8">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex justify-between items-center mb-5 p-4 bg-white rounded-lg shadow">
-          <h1 className="text-2xl font-bold text-gray-700">Список пользователей</h1>
+          <h1 className="text-2xl font-bold text-gray-700">Список заказов</h1>
         </div>
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <UsersTable data={users} />
+          <OrdersTable data={orders} />
         </div>
       </div>
     </section>
