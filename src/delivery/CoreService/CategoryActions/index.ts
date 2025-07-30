@@ -6,7 +6,7 @@ import {
   ICategoryCreateContract,
   ICategoryResponseContract,
   ICategoryUpdateContract,
-} from '@models/delivery/contracts/ICategoryCategory'
+} from '@models/delivery/contracts/ICategoryConctract'
 import { ICategoryActions } from './interface'
 
 export class CategoryActions implements ICategoryActions {

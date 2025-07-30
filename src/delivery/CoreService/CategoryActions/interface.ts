@@ -4,7 +4,7 @@ import {
   ICategoryCreateContract,
   ICategoryResponseContract,
   ICategoryUpdateContract,
-} from '@models/delivery/contracts/ICategoryCategory'
+} from '@models/delivery/contracts/ICategoryConctract'
 
 export interface ICategoryActions {
   connector: IConnector

@@ -1,4 +1,4 @@
-import { ICategoryResponseContract } from '@models/delivery/contracts/ICategoryCategory'
+import { ICategoryResponseContract } from '@models/delivery/contracts/ICategoryConctract'
 import { Descriptions, Modal } from 'antd'
 import { FC } from 'react'
 

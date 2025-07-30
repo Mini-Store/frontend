@@ -4,7 +4,7 @@ import { useMessage } from '@hooks/useMessages.tsx'
 import {
   ICategoryResponseContract,
   ICategoryUpdateContract,
-} from '@models/delivery/contracts/ICategoryCategory'
+} from '@models/delivery/contracts/ICategoryConctract'
 import { Form, Input, Modal } from 'antd'
 import { FC, useEffect } from 'react'
 

@@ -1,4 +1,4 @@
-import { ICategoryResponseContract } from './ICategoryCategory'
+import { ICategoryResponseContract } from './ICategoryConctract'
 
 export interface IProductResponseContract {
   id: string

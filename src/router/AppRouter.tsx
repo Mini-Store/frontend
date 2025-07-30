@@ -9,6 +9,7 @@ import { Home } from '@pages/Home'
 import { Login } from '@pages/Login'
 import { Products } from '@pages/Products'
 import { Register } from '@pages/Register'
+import { Users } from '@pages/Users'
 import { authStore } from '@store/useAuthStore'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
@@ -50,6 +51,16 @@ export const AppRouter = () => {
           element={
             accessToken && user?.role === 'admin' ? (
               <Categories />
+            ) : (
+              <Navigate to={SITE_ROUTES.LOGIN} replace />
+            )
+          }
+        />
+        <Route
+          path={ADMIN_ROUTES.USERS}
+          element={
+            accessToken && user?.role === 'admin' ? (
+              <Users />
             ) : (
               <Navigate to={SITE_ROUTES.LOGIN} replace />
             )

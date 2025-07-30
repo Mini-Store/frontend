@@ -1,9 +1,21 @@
-export interface IUser {
+export enum ROLE {
+  admin,
+  user
+}
+
+export interface IUserResponseContract {
   id: string
-  createdAt: string
-  username: string
-  email: string
-  phoneNumber?: string
-  password?: string
+  email: string 
+  name: string
+  avatarPath: string
+  phone: string
   role: string
+}
+
+export interface IUserUpdateContract {
+  email: string
+  name: string
+  avatarPath: string
+  phone: string
+  role: ROLE
 }

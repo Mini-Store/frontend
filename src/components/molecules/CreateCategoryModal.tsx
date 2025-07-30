@@ -1,7 +1,7 @@
 import { useDelivery } from '@hooks/API/useDelivery.tsx'
 import { useFetch } from '@hooks/API/useFetch.tsx'
 import { useMessage } from '@hooks/useMessages.tsx'
-import { ICategoryCreateContract } from '@models/delivery/contracts/ICategoryCategory'
+import { ICategoryCreateContract } from '@models/delivery/contracts/ICategoryConctract'
 import { Form, Input, Modal } from 'antd'
 import { FC } from 'react'
 
